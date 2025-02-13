@@ -1,5 +1,5 @@
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ServerCard from "@/components/ServerCard";
 import CreateSSHForm from "@/components/CreateSSHForm";
 import { useEffect, useState } from "react";
@@ -42,8 +42,8 @@ const Index = () => {
   };
 
   const handleSSHCreated = () => {
-    // Refresh the servers list after creating an SSH account
     fetchServers();
+    setSelectedServerId(null); // Reset selected server after SSH creation
   };
 
   return (
@@ -64,16 +64,27 @@ const Index = () => {
           {servers.map((server) => (
             <ServerCard 
               key={server.id} 
-              {...server} 
+              {...server}
               onSelect={handleServerSelect}
             />
           ))}
         </div>
 
-        <CreateSSHForm 
-          serverId={selectedServerId}
-          onSuccess={handleSSHCreated}
-        />
+        <AnimatePresence>
+          {selectedServerId && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CreateSSHForm 
+                serverId={selectedServerId}
+                onSuccess={handleSSHCreated}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <motion.div
           initial={{ opacity: 0 }}
