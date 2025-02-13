@@ -1,7 +1,6 @@
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ServerCard from "@/components/ServerCard";
-import CreateSSHForm from "@/components/CreateSSHForm";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -15,7 +14,6 @@ interface Server {
 
 const Index = () => {
   const [servers, setServers] = useState<Server[]>([]);
-  const [selectedServerId, setSelectedServerId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchServers = async () => {
@@ -37,15 +35,6 @@ const Index = () => {
     fetchServers();
   }, []);
 
-  const handleServerSelect = (serverId: string) => {
-    setSelectedServerId(serverId);
-  };
-
-  const handleSSHCreated = () => {
-    fetchServers();
-    setSelectedServerId(null); // Reset selected server after SSH creation
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <div className="container px-4 py-8">
@@ -65,26 +54,9 @@ const Index = () => {
             <ServerCard 
               key={server.id} 
               {...server}
-              onSelect={handleServerSelect}
             />
           ))}
         </div>
-
-        <AnimatePresence>
-          {selectedServerId && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <CreateSSHForm 
-                serverId={selectedServerId}
-                onSuccess={handleSSHCreated}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         <motion.div
           initial={{ opacity: 0 }}
