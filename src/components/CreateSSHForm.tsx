@@ -10,21 +10,65 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-const CreateSSHForm = () => {
+interface CreateSSHFormProps {
+  serverId: string | null;
+  onSuccess: () => void;
+}
+
+const CreateSSHForm = ({ serverId, onSuccess }: CreateSSHFormProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically make an API call to create the SSH account
-    toast({
-      title: "Permintaan diterima",
-      description: "Akun SSH sedang dibuat. Mohon tunggu sebentar.",
-    });
+    if (!serverId) {
+      toast({
+        title: "Error",
+        description: "Silakan pilih server terlebih dahulu",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase
+        .from('ssh_accounts')
+        .insert([
+          {
+            server_id: serverId,
+            username,
+            password,
+            expired_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Berhasil",
+        description: "Akun SSH telah berhasil dibuat",
+      });
+      
+      setUsername("");
+      setPassword("");
+      onSuccess();
+    } catch (error) {
+      console.error('Error creating SSH account:', error);
+      toast({
+        title: "Error",
+        description: "Gagal membuat akun SSH. Silakan coba lagi.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,6 +94,7 @@ const CreateSSHForm = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
@@ -61,10 +106,15 @@ const CreateSSHForm = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
-            <Button type="submit" className="w-full">
-              Buat Akun SSH
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={isLoading || !serverId}
+            >
+              {isLoading ? "Membuat Akun..." : "Buat Akun SSH"}
             </Button>
           </form>
         </CardContent>

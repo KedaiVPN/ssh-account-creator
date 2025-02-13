@@ -1,16 +1,19 @@
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 
 interface ServerCardProps {
+  id: string;
   name: string;
   location: string;
-  status: "online" | "offline";
+  status: string;
   load: number;
+  onSelect: (serverId: string) => void;
 }
 
-const ServerCard = ({ name, location, status, load }: ServerCardProps) => {
+const ServerCard = ({ id, name, location, status, load, onSelect }: ServerCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -41,6 +44,13 @@ const ServerCard = ({ name, location, status, load }: ServerCardProps) => {
               <span className="text-sm text-muted-foreground">Server Load:</span>
               <span className="font-medium">{load}%</span>
             </div>
+            <Button 
+              className="w-full mt-2" 
+              onClick={() => onSelect(id)}
+              disabled={status !== "online"}
+            >
+              Pilih Server
+            </Button>
           </div>
         </CardContent>
       </Card>

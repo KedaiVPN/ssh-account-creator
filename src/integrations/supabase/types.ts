@@ -9,6 +9,92 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      servers: {
+        Row: {
+          created_at: string | null
+          hostname: string
+          id: string
+          load: number
+          location: string
+          max_users: number
+          name: string
+          password: string
+          port: number
+          status: string
+          updated_at: string | null
+          username: string
+        }
+        Insert: {
+          created_at?: string | null
+          hostname: string
+          id?: string
+          load?: number
+          location: string
+          max_users?: number
+          name: string
+          password: string
+          port?: number
+          status?: string
+          updated_at?: string | null
+          username: string
+        }
+        Update: {
+          created_at?: string | null
+          hostname?: string
+          id?: string
+          load?: number
+          location?: string
+          max_users?: number
+          name?: string
+          password?: string
+          port?: number
+          status?: string
+          updated_at?: string | null
+          username?: string
+        }
+        Relationships: []
+      }
+      ssh_accounts: {
+        Row: {
+          created_at: string | null
+          expired_at: string | null
+          id: string
+          password: string
+          server_id: string | null
+          status: string
+          updated_at: string | null
+          username: string
+        }
+        Insert: {
+          created_at?: string | null
+          expired_at?: string | null
+          id?: string
+          password: string
+          server_id?: string | null
+          status?: string
+          updated_at?: string | null
+          username: string
+        }
+        Update: {
+          created_at?: string | null
+          expired_at?: string | null
+          id?: string
+          password?: string
+          server_id?: string | null
+          status?: string
+          updated_at?: string | null
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ssh_accounts_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tunnels: {
         Row: {
           created_at: string

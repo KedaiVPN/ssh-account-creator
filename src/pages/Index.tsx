@@ -2,28 +2,49 @@
 import { motion } from "framer-motion";
 import ServerCard from "@/components/ServerCard";
 import CreateSSHForm from "@/components/CreateSSHForm";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface Server {
+  id: string;
+  name: string;
+  location: string;
+  status: string;
+  load: number;
+}
 
 const Index = () => {
-  const servers = [
-    {
-      name: "SG-DO Premium",
-      location: "Singapore",
-      status: "online" as const,
-      load: 45,
-    },
-    {
-      name: "ID-VPS Basic",
-      location: "Indonesia",
-      status: "online" as const,
-      load: 32,
-    },
-    {
-      name: "US-Cloud Pro",
-      location: "United States",
-      status: "offline" as const,
-      load: 0,
-    },
-  ];
+  const [servers, setServers] = useState<Server[]>([]);
+  const [selectedServerId, setSelectedServerId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchServers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('servers')
+        .select('id, name, location, status, load');
+      
+      if (error) throw error;
+      setServers(data || []);
+    } catch (error) {
+      console.error('Error fetching servers:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchServers();
+  }, []);
+
+  const handleServerSelect = (serverId: string) => {
+    setSelectedServerId(serverId);
+  };
+
+  const handleSSHCreated = () => {
+    // Refresh the servers list after creating an SSH account
+    fetchServers();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,12 +61,19 @@ const Index = () => {
         </motion.div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-8">
-          {servers.map((server, index) => (
-            <ServerCard key={index} {...server} />
+          {servers.map((server) => (
+            <ServerCard 
+              key={server.id} 
+              {...server} 
+              onSelect={handleServerSelect}
+            />
           ))}
         </div>
 
-        <CreateSSHForm />
+        <CreateSSHForm 
+          serverId={selectedServerId}
+          onSuccess={handleSSHCreated}
+        />
 
         <motion.div
           initial={{ opacity: 0 }}
