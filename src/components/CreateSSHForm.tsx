@@ -38,16 +38,17 @@ const CreateSSHForm = ({ serverId, onSuccess }: CreateSSHFormProps) => {
 
     setIsLoading(true);
     try {
+      // Convert Date to ISO string format that Supabase expects
+      const expiryDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      
       const { error } = await supabase
         .from('ssh_accounts')
-        .insert([
-          {
-            server_id: serverId,
-            username,
-            password,
-            expired_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
-          }
-        ]);
+        .insert({
+          server_id: serverId,
+          username,
+          password,
+          expired_at: expiryDate,
+        });
 
       if (error) throw error;
 
