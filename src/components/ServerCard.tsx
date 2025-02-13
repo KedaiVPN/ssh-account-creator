@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 interface ServerCardProps {
   id: string;
@@ -10,10 +11,11 @@ interface ServerCardProps {
   location: string;
   status: string;
   load: number;
-  onSelect: (serverId: string) => void;
 }
 
-const ServerCard = ({ id, name, location, status, load, onSelect }: ServerCardProps) => {
+const ServerCard = ({ id, name, location, status, load }: ServerCardProps) => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -46,7 +48,7 @@ const ServerCard = ({ id, name, location, status, load, onSelect }: ServerCardPr
             </div>
             <Button 
               className="w-full mt-2" 
-              onClick={() => onSelect(id)}
+              onClick={() => navigate(`/create-ssh/${id}`)}
               disabled={status !== "online"}
             >
               Pilih Server
