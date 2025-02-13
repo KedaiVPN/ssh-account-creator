@@ -130,7 +130,7 @@ const CreateSSH = () => {
                   <Label>Nama Server</Label>
                   <p className="text-foreground">{server.name}</p>
                 </div>
-                <div>
+                <div className="text-right">
                   <Label>Lokasi</Label>
                   <p className="text-foreground">{server.location}</p>
                 </div>
@@ -138,15 +138,19 @@ const CreateSSH = () => {
                   <Label>Hostname</Label>
                   <p className="text-foreground">{server.hostname}</p>
                 </div>
-                <div>
+                <div className="text-right">
                   <Label>Status</Label>
-                  <p className="text-foreground capitalize">{server.status}</p>
+                  <p className={`text-foreground capitalize ${
+                    server.status === 'online' ? 'text-success' : 'text-error'
+                  }`}>
+                    {server.status}
+                  </p>
                 </div>
                 <div>
                   <Label>Server Load</Label>
                   <p className="text-foreground">{server.load}%</p>
                 </div>
-                <div>
+                <div className="text-right">
                   <Label>Max Users</Label>
                   <p className="text-foreground">{server.max_users}</p>
                 </div>
