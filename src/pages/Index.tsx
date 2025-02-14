@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import ServerCard from "@/components/ServerCard";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -64,7 +63,6 @@ const ServiceCard = ({
 
 const Index = () => {
   const [servers, setServers] = useState<Server[]>([]);
-  const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -106,72 +104,29 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <Tabs
-              value={selectedService || "services"}
-              onValueChange={setSelectedService}
-              className="w-full"
-            >
-              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-6">
-                <TabsTrigger value="services">Layanan</TabsTrigger>
-                <TabsTrigger value="ssh">SSH Account</TabsTrigger>
-                <TabsTrigger value="vmess">V2Ray VMess</TabsTrigger>
-                <TabsTrigger value="trojan">Trojan</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="services">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  <ServiceCard
-                    title="SSH Account"
-                    description="Akses SSH untuk kebutuhan tunneling dengan performa terbaik"
-                    servers={servers}
-                    onSelect={() => setSelectedService('ssh')}
-                  />
-                  <ServiceCard
-                    title="V2Ray VMess"
-                    description="Layanan V2Ray VMess untuk koneksi yang lebih aman"
-                    servers={[]}
-                    isAvailable={false}
-                    onSelect={() => setSelectedService('vmess')}
-                  />
-                  <ServiceCard
-                    title="Trojan"
-                    description="Protokol Trojan untuk bypass firewall"
-                    servers={[]}
-                    isAvailable={false}
-                    onSelect={() => setSelectedService('trojan')}
-                  />
-                </div>
-              </TabsContent>
-
-              <TabsContent value="ssh">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {servers.map((server) => (
-                    <ServerCard 
-                      key={server.id} 
-                      {...server}
-                    />
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="vmess">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  <Card className="p-6 text-center">
-                    <h3 className="text-xl font-semibold mb-2">V2Ray VMess</h3>
-                    <p className="text-muted-foreground">Layanan akan segera tersedia</p>
-                  </Card>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="trojan">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  <Card className="p-6 text-center">
-                    <h3 className="text-xl font-semibold mb-2">Trojan</h3>
-                    <p className="text-muted-foreground">Layanan akan segera tersedia</p>
-                  </Card>
-                </div>
-              </TabsContent>
-            </Tabs>
+            <h2 className="text-2xl font-bold text-center mb-8">Beranda</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <ServiceCard
+                title="SSH Account"
+                description="Akses SSH untuk kebutuhan tunneling dengan performa terbaik"
+                servers={servers}
+                onSelect={() => navigate('/ssh')}
+              />
+              <ServiceCard
+                title="V2Ray VMess"
+                description="Layanan V2Ray VMess untuk koneksi yang lebih aman"
+                servers={[]}
+                isAvailable={false}
+                onSelect={() => {}}
+              />
+              <ServiceCard
+                title="Trojan"
+                description="Protokol Trojan untuk bypass firewall"
+                servers={[]}
+                isAvailable={false}
+                onSelect={() => {}}
+              />
+            </div>
           </motion.div>
 
           <motion.div
