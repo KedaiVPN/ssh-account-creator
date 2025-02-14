@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import CreateSSH from "./pages/CreateSSH";
+import SSH from "./pages/SSH";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -18,6 +19,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/ssh" element={<SSH />} />
           <Route path="/create-ssh/:serverId" element={<CreateSSH />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

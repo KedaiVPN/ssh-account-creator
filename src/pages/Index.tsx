@@ -54,7 +54,7 @@ const ServiceCard = ({
           onClick={onSelect}
           disabled={!isAvailable}
         >
-          Pilih Layanan
+          Create Account
         </Button>
       </CardContent>
     </Card>
