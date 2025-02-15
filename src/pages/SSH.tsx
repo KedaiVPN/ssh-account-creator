@@ -1,9 +1,11 @@
+
 import { motion } from "framer-motion";
 import ServerCard from "@/components/ServerCard";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import PageLayout from "@/components/layout/PageLayout";
 
 interface Server {
   id: string;
@@ -17,7 +19,6 @@ const SSH = () => {
   const [servers, setServers] = useState<Server[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
 
   const fetchServers = async () => {
     try {
@@ -39,61 +40,32 @@ const SSH = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className={`bg-[#006400] text-white py-3 fixed w-full z-50 transition-transform duration-300 ${show ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="container px-4">
-          <div className="flex items-center">
-            <div className="text-left">
-              <h1 className="text-2xl font-bold">Kedai SSH</h1>
-              <p className="text-sm text-white/80">the fastest speed server</p>
-            </div>
-          </div>
-        </div>
-      </header>
+    <PageLayout>
+      <Button
+        variant="ghost"
+        className="mb-4"
+        onClick={() => navigate(-1)}
+      >
+        ← Kembali
+      </Button>
 
-      {/* Main Content */}
-      <main className="flex-1 bg-[#f0f8f0] pt-20">
-        <div className="container px-4 py-8">
-          <Button
-            variant="ghost"
-            className="mb-4"
-            onClick={() => navigate(-1)}
-          >
-            ← Kembali
-          </Button>
-
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <h2 className="text-2xl font-bold text-center mb-8">Pilih Server SSH</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {servers.map((server) => (
-                <ServerCard 
-                  key={server.id} 
-                  {...server}
-                />
-              ))}
-            </div>
-          </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-8"
+      >
+        <h2 className="text-2xl font-bold text-center mb-8">Pilih Server SSH</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {servers.map((server) => (
+            <ServerCard 
+              key={server.id} 
+              {...server}
+            />
+          ))}
         </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-[#006400] text-white py-3">
-        <div className="container px-4">
-          <div className="text-center">
-            <h2 className="text-lg font-bold mb-1">Kedai SSH</h2>
-            <p className="text-xs text-white/80">
-              © {new Date().getFullYear()} Kedai SSH. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+      </motion.div>
+    </PageLayout>
   );
 };
 

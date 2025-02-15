@@ -1,11 +1,12 @@
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import ServerCard from "@/components/ServerCard";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import PageLayout from "@/components/layout/PageLayout";
 
 interface Server {
   id: string;
@@ -64,29 +65,7 @@ const ServiceCard = ({
 const Index = () => {
   const [servers, setServers] = useState<Server[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [show, setShow] = useState(true);
   const navigate = useNavigate();
-
-  const controlNavbar = () => {
-    if (typeof window !== 'undefined') {
-      if (window.scrollY > lastScrollY && window.scrollY > 100) { // scroll down
-        setShow(false);
-      } else { // scroll up
-        setShow(true);
-      }
-      setLastScrollY(window.scrollY);
-    }
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar);
-      return () => {
-        window.removeEventListener('scroll', controlNavbar);
-      };
-    }
-  }, [lastScrollY]);
 
   const fetchServers = async () => {
     try {
@@ -108,78 +87,49 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className={`bg-[#006400] text-white py-3 fixed w-full z-50 transition-transform duration-300 ${show ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="container px-4">
-          <div className="flex items-center">
-            <div className="text-left">
-              <h1 className="text-2xl font-bold">Kedai SSH</h1>
-              <p className="text-sm text-white/80">the fastest speed server</p>
-            </div>
-          </div>
+    <PageLayout>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-8"
+      >
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <ServiceCard
+            title="SSH Account"
+            description="Akses SSH untuk kebutuhan tunneling dengan performa terbaik"
+            servers={servers}
+            onSelect={() => navigate('/ssh')}
+          />
+          <ServiceCard
+            title="V2Ray VMess"
+            description="Layanan V2Ray VMess untuk koneksi yang lebih aman"
+            servers={[]}
+            isAvailable={false}
+            onSelect={() => {}}
+          />
+          <ServiceCard
+            title="Trojan"
+            description="Protokol Trojan untuk bypass firewall"
+            servers={[]}
+            isAvailable={false}
+            onSelect={() => {}}
+          />
         </div>
-      </header>
+      </motion.div>
 
-      {/* Main Content */}
-      <main className="flex-1 bg-[#f0f8f0] pt-20">
-        <div className="container px-4 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-          >
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <ServiceCard
-                title="SSH Account"
-                description="Akses SSH untuk kebutuhan tunneling dengan performa terbaik"
-                servers={servers}
-                onSelect={() => navigate('/ssh')}
-              />
-              <ServiceCard
-                title="V2Ray VMess"
-                description="Layanan V2Ray VMess untuk koneksi yang lebih aman"
-                servers={[]}
-                isAvailable={false}
-                onSelect={() => {}}
-              />
-              <ServiceCard
-                title="Trojan"
-                description="Protokol Trojan untuk bypass firewall"
-                servers={[]}
-                isAvailable={false}
-                onSelect={() => {}}
-              />
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-center text-sm text-muted-foreground"
-          >
-            <p>
-              Dengan menggunakan layanan ini, Anda menyetujui syarat dan ketentuan
-              yang berlaku
-            </p>
-          </motion.div>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-[#006400] text-white py-3">
-        <div className="container px-4">
-          <div className="text-center">
-            <h2 className="text-lg font-bold mb-1">Kedai SSH</h2>
-            <p className="text-xs text-white/80">
-              © {new Date().getFullYear()} Kedai SSH. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="text-center text-sm text-muted-foreground"
+      >
+        <p>
+          Dengan menggunakan layanan ini, Anda menyetujui syarat dan ketentuan
+          yang berlaku
+        </p>
+      </motion.div>
+    </PageLayout>
   );
 };
 
