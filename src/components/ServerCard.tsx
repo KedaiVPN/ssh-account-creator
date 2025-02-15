@@ -47,7 +47,7 @@ const ServerCard = ({ id, name, location, status, load }: ServerCardProps) => {
               <span className="font-medium">{load}%</span>
             </div>
             <Button 
-              className="w-full mt-2" 
+              className="w-full mt-2 bg-[#006400] hover:bg-[#006400]/90" 
               onClick={() => navigate(`/create-ssh/${id}`)}
               disabled={status !== "online"}
             >

@@ -50,7 +50,7 @@ const ServiceCard = ({
           </div>
         </div>
         <Button 
-          className="w-full" 
+          className="w-full bg-[#006400] hover:bg-[#006400]/90" 
           onClick={onSelect}
           disabled={!isAvailable}
         >
