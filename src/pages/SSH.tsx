@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import ServerCard from "@/components/ServerCard";
 import { useEffect, useState } from "react";
@@ -18,6 +17,7 @@ const SSH = () => {
   const [servers, setServers] = useState<Server[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   const fetchServers = async () => {
     try {
@@ -41,7 +41,7 @@ const SSH = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-[#006400] text-white py-3">
+      <header className={`bg-[#006400] text-white py-3 fixed w-full z-50 transition-transform duration-300 ${show ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container px-4">
           <div className="flex items-center">
             <div className="text-left">
@@ -53,12 +53,12 @@ const SSH = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 bg-[#f0f8f0]">
+      <main className="flex-1 bg-[#f0f8f0] pt-20">
         <div className="container px-4 py-8">
           <Button
             variant="ghost"
             className="mb-4"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(-1)}
           >
             ← Kembali
           </Button>
