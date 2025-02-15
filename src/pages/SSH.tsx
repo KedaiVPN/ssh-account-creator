@@ -41,10 +41,14 @@ const SSH = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-[#006400] text-white py-6">
+      <header className="bg-[#006400] text-white py-3">
         <div className="container px-4">
-          <h1 className="text-3xl font-bold text-center">Kedai SSH</h1>
-          <p className="text-center mt-2 text-white/80">the fastest speed server</p>
+          <div className="flex items-center">
+            <div className="text-left">
+              <h1 className="text-2xl font-bold">Kedai SSH</h1>
+              <p className="text-sm text-white/80">the fastest speed server</p>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -79,11 +83,11 @@ const SSH = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#006400] text-white py-6">
+      <footer className="bg-[#006400] text-white py-3">
         <div className="container px-4">
           <div className="text-center">
-            <h2 className="text-xl font-bold mb-2">Kedai SSH</h2>
-            <p className="text-sm text-white/80">
+            <h2 className="text-lg font-bold mb-1">Kedai SSH</h2>
+            <p className="text-xs text-white/80">
               © {new Date().getFullYear()} Kedai SSH. All rights reserved.
             </p>
           </div>
