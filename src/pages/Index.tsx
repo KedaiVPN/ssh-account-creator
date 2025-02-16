@@ -1,134 +1,183 @@
 
 import { motion } from "framer-motion";
-import ServerCard from "@/components/ServerCard";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
-
-interface Server {
-  id: string;
-  name: string;
-  location: string;
-  status: string;
-  load: number;
-}
-
-const ServiceCard = ({ 
-  title, 
-  description, 
-  servers, 
-  isAvailable = true,
-  onSelect 
-}: { 
-  title: string;
-  description: string;
-  servers: Server[];
-  isAvailable?: boolean;
-  onSelect: () => void;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
-  >
-    <Card className="hover:shadow-lg transition-shadow duration-300">
-      <CardContent className="p-6">
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <p className="text-muted-foreground mb-4">{description}</p>
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm">Status:</span>
-            <span className={`text-sm ${isAvailable ? 'text-success' : 'text-error'}`}>
-              {isAvailable ? 'Tersedia' : 'Segera Hadir'}
-            </span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm">Server Tersedia:</span>
-            <span className="text-sm font-medium">{servers.length}</span>
-          </div>
-        </div>
-        <Button 
-          className="w-full bg-[#006400] hover:bg-[#006400]/90" 
-          onClick={onSelect}
-          disabled={!isAvailable}
-        >
-          Create Account
-        </Button>
-      </CardContent>
-    </Card>
-  </motion.div>
-);
+import { Card, CardContent } from "@/components/ui/card";
+import { Menu, User, Wallet, Network, CircleDot } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Index = () => {
-  const [servers, setServers] = useState<Server[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
-  const fetchServers = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('servers')
-        .select('id, name, location, status, load');
-      
-      if (error) throw error;
-      setServers(data || []);
-    } catch (error) {
-      console.error('Error fetching servers:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchServers();
-  }, []);
+  const [activeTab, setActiveTab] = useState('monitoring');
 
   return (
     <PageLayout>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-8"
-      >
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <ServiceCard
-            title="SSH Account"
-            description="Akses SSH untuk kebutuhan tunneling dengan performa terbaik"
-            servers={servers}
-            onSelect={() => navigate('/ssh')}
-          />
-          <ServiceCard
-            title="V2Ray VMess"
-            description="Layanan V2Ray VMess untuk koneksi yang lebih aman"
-            servers={[]}
-            isAvailable={false}
-            onSelect={() => {}}
-          />
-          <ServiceCard
-            title="Trojan"
-            description="Protokol Trojan untuk bypass firewall"
-            servers={[]}
-            isAvailable={false}
-            onSelect={() => {}}
-          />
-        </div>
-      </motion.div>
+      {/* Top Navigation */}
+      <div className="flex justify-between items-center mb-6">
+        <div /> {/* Empty div for spacing */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="mr-2">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Menu</SheetTitle>
+            </SheetHeader>
+            <div className="py-4">
+              <nav className="space-y-2">
+                <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/')}>
+                  Beranda
+                </Button>
+                <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/profile')}>
+                  Profil
+                </Button>
+                <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/settings')}>
+                  Pengaturan
+                </Button>
+              </nav>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="text-center text-sm text-muted-foreground"
-      >
-        <p>
-          Dengan menggunakan layanan ini, Anda menyetujui syarat dan ketentuan
-          yang berlaku
+      {/* Telegram Alert */}
+      <div className="bg-white rounded-lg shadow-sm p-4 mb-6 border-l-4 border-red-500">
+        <p className="text-gray-800">
+          Semua informasi diperbarui melalui grup telegram. Silahkan join{" "}
+          <a href="#" className="text-blue-600 font-semibold">DISINI</a>
         </p>
-      </motion.div>
+      </div>
+
+      {/* User Info Cards */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <Card>
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="bg-yellow-400 p-2 rounded-lg">
+              <User className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-medium">Role</p>
+              <p className="text-lg font-bold">MEMBER</p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="bg-blue-500 p-2 rounded-lg">
+              <Wallet className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-medium">Balance</p>
+              <p className="text-lg font-bold">Rp 0</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* VPN Active Card */}
+      <Card className="mb-6">
+        <CardContent className="p-4 flex items-center space-x-3">
+          <div className="bg-green-500 p-2 rounded-lg">
+            <Network className="h-6 w-6 text-white" />
+          </div>
+          <div>
+            <p className="text-sm font-medium">VPN Active</p>
+            <p className="text-lg font-bold">0</p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Server Cards */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <Button 
+          variant="secondary" 
+          className="h-auto py-6 flex flex-col items-center"
+          onClick={() => navigate('/ssh')}
+        >
+          <span className="text-4xl font-bold mb-2">4</span>
+          <span className="text-sm mb-2">SSH Servers</span>
+          <span className="text-sm flex items-center">
+            Order SSH <CircleDot className="ml-1 h-4 w-4" />
+          </span>
+        </Button>
+        <Button 
+          variant="secondary" 
+          className="h-auto py-6 flex flex-col items-center"
+          onClick={() => navigate('/vmess')}
+        >
+          <span className="text-4xl font-bold mb-2">9</span>
+          <span className="text-sm mb-2">Vmess Servers</span>
+          <span className="text-sm flex items-center">
+            Order Vmess <CircleDot className="ml-1 h-4 w-4" />
+          </span>
+        </Button>
+        <Button 
+          variant="secondary" 
+          className="h-auto py-6 flex flex-col items-center"
+          onClick={() => navigate('/vless')}
+        >
+          <span className="text-4xl font-bold mb-2">9</span>
+          <span className="text-sm mb-2">Vless Servers</span>
+          <span className="text-sm flex items-center">
+            Order Vless <CircleDot className="ml-1 h-4 w-4" />
+          </span>
+        </Button>
+        <Button 
+          variant="secondary" 
+          className="h-auto py-6 flex flex-col items-center"
+          onClick={() => navigate('/trojan')}
+        >
+          <span className="text-4xl font-bold mb-2">9</span>
+          <span className="text-sm mb-2">Trojan Servers</span>
+          <span className="text-sm flex items-center">
+            Order Trojan <CircleDot className="ml-1 h-4 w-4" />
+          </span>
+        </Button>
+      </div>
+
+      {/* Bottom Navigation */}
+      <Card className="mt-auto">
+        <CardContent className="p-0">
+          <div className="grid grid-cols-3 divide-x">
+            <Button 
+              variant="ghost" 
+              className={`py-4 rounded-none ${activeTab === 'monitoring' ? 'bg-muted' : ''}`}
+              onClick={() => setActiveTab('monitoring')}
+            >
+              Monitoring
+            </Button>
+            <Button 
+              variant="ghost" 
+              className={`py-4 rounded-none ${activeTab === 'transaksi' ? 'bg-blue-500 text-white' : ''}`}
+              onClick={() => setActiveTab('transaksi')}
+            >
+              Transaksi
+            </Button>
+            <Button 
+              variant="ghost" 
+              className={`py-4 rounded-none ${activeTab === 'deposit' ? 'bg-muted' : ''}`}
+              onClick={() => setActiveTab('deposit')}
+            >
+              Deposit
+            </Button>
+          </div>
+          <div className="grid grid-cols-3 divide-x border-t">
+            <Button variant="ghost" className="py-4 rounded-none">User</Button>
+            <Button variant="ghost" className="py-4 rounded-none">Protocol</Button>
+            <Button variant="ghost" className="py-4 rounded-none">Server</Button>
+          </div>
+        </CardContent>
+      </Card>
     </PageLayout>
   );
 };

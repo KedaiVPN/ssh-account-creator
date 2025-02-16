@@ -30,7 +30,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
   }, [lastScrollY]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#f3f3f3]">
       {/* Header */}
       <header className={`bg-[#006400] text-white py-3 fixed w-full z-50 transition-transform duration-300 ${show ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container px-4">
@@ -44,8 +44,8 @@ const PageLayout = ({ children }: PageLayoutProps) => {
       </header>
 
       {/* Main Content */}
-      <div className="min-h-screen bg-background pt-20 px-4">
-        <div className="container max-w-4xl mx-auto py-8">
+      <div className="flex-1 bg-[#f3f3f3] pt-20 px-4 pb-4">
+        <div className="container max-w-lg mx-auto">
           {children}
         </div>
       </div>
