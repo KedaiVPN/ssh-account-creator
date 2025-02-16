@@ -48,7 +48,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
           <div className="flex items-center">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-white mr-4">
+                <Button variant="ghost" size="icon" className="text-white">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -71,7 +71,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
                 </div>
               </SheetContent>
             </Sheet>
-            <div className="flex-1 text-center">
+            <div className="ml-2">
               <h1 className="text-2xl font-bold">Kedai SSH</h1>
               <p className="text-sm text-white/80">the fastest speed server</p>
             </div>

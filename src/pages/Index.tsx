@@ -54,14 +54,6 @@ const Index = () => {
 
   return (
     <PageLayout>
-      {/* Telegram Alert */}
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-6 border-l-4 border-red-500">
-        <p className="text-gray-800">
-          Semua informasi diperbarui melalui grup telegram. Silahkan join{" "}
-          <a href="#" className="text-blue-600 font-semibold">DISINI</a>
-        </p>
-      </div>
-
       {/* User Info Cards */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <Card className="bg-[#006400]">
@@ -71,7 +63,7 @@ const Index = () => {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-medium text-white">Role</p>
-              <p className="text-base font-bold text-white truncate">MEMBER</p>
+              <p className="text-sm font-bold text-white truncate">MEMBER</p>
             </div>
           </CardContent>
         </Card>
@@ -108,9 +100,9 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/ssh')}
         >
-          <span className="text-4xl font-bold mb-2">{serverCounts.ssh}</span>
-          <span className="text-sm mb-2">SSH Servers</span>
-          <span className="text-sm flex items-center">
+          <span className="text-4xl font-bold">{serverCounts.ssh}</span>
+          <span className="text-sm">SSH Servers</span>
+          <span className="text-sm flex items-center mt-1">
             Order SSH <CircleDot className="ml-1 h-4 w-4" />
           </span>
         </Button>
@@ -119,9 +111,9 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vmess')}
         >
-          <span className="text-4xl font-bold mb-2">{serverCounts.vmess}</span>
-          <span className="text-sm mb-2">Vmess Servers</span>
-          <span className="text-sm flex items-center">
+          <span className="text-4xl font-bold">{serverCounts.vmess}</span>
+          <span className="text-sm">Vmess Servers</span>
+          <span className="text-sm flex items-center mt-1">
             Order Vmess <CircleDot className="ml-1 h-4 w-4" />
           </span>
         </Button>
@@ -130,9 +122,9 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vless')}
         >
-          <span className="text-4xl font-bold mb-2">{serverCounts.vless}</span>
-          <span className="text-sm mb-2">Vless Servers</span>
-          <span className="text-sm flex items-center">
+          <span className="text-4xl font-bold">{serverCounts.vless}</span>
+          <span className="text-sm">Vless Servers</span>
+          <span className="text-sm flex items-center mt-1">
             Order Vless <CircleDot className="ml-1 h-4 w-4" />
           </span>
         </Button>
@@ -141,9 +133,9 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/trojan')}
         >
-          <span className="text-4xl font-bold mb-2">{serverCounts.trojan}</span>
-          <span className="text-sm mb-2">Trojan Servers</span>
-          <span className="text-sm flex items-center">
+          <span className="text-4xl font-bold">{serverCounts.trojan}</span>
+          <span className="text-sm">Trojan Servers</span>
+          <span className="text-sm flex items-center mt-1">
             Order Trojan <CircleDot className="ml-1 h-4 w-4" />
           </span>
         </Button>
