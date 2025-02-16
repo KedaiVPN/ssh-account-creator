@@ -16,7 +16,6 @@ import {
 
 const Index = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('monitoring');
 
   return (
     <PageLayout>
@@ -60,39 +59,39 @@ const Index = () => {
 
       {/* User Info Cards */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <Card>
+        <Card className="bg-[#006400]">
           <CardContent className="p-4 flex items-center space-x-3">
             <div className="bg-yellow-400 p-2 rounded-lg">
               <User className="h-6 w-6 text-white" />
             </div>
-            <div>
-              <p className="text-sm font-medium">Role</p>
-              <p className="text-lg font-bold">MEMBER</p>
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-white">Role</p>
+              <p className="text-lg font-bold text-white truncate">MEMBER</p>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-[#006400]">
           <CardContent className="p-4 flex items-center space-x-3">
             <div className="bg-blue-500 p-2 rounded-lg">
               <Wallet className="h-6 w-6 text-white" />
             </div>
             <div>
-              <p className="text-sm font-medium">Balance</p>
-              <p className="text-lg font-bold">Rp 0</p>
+              <p className="text-sm font-medium text-white">Balance</p>
+              <p className="text-lg font-bold text-white">Rp 0</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* VPN Active Card */}
-      <Card className="mb-6">
+      <Card className="mb-6 bg-[#006400]">
         <CardContent className="p-4 flex items-center space-x-3">
           <div className="bg-green-500 p-2 rounded-lg">
             <Network className="h-6 w-6 text-white" />
           </div>
           <div>
-            <p className="text-sm font-medium">VPN Active</p>
-            <p className="text-lg font-bold">0</p>
+            <p className="text-sm font-medium text-white">VPN Active</p>
+            <p className="text-lg font-bold text-white">0</p>
           </div>
         </CardContent>
       </Card>
@@ -101,7 +100,7 @@ const Index = () => {
       <div className="grid grid-cols-2 gap-4 mb-6">
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/ssh')}
         >
           <span className="text-4xl font-bold mb-2">4</span>
@@ -112,7 +111,7 @@ const Index = () => {
         </Button>
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vmess')}
         >
           <span className="text-4xl font-bold mb-2">9</span>
@@ -123,7 +122,7 @@ const Index = () => {
         </Button>
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vless')}
         >
           <span className="text-4xl font-bold mb-2">9</span>
@@ -134,7 +133,7 @@ const Index = () => {
         </Button>
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/trojan')}
         >
           <span className="text-4xl font-bold mb-2">9</span>
@@ -144,40 +143,6 @@ const Index = () => {
           </span>
         </Button>
       </div>
-
-      {/* Bottom Navigation */}
-      <Card className="mt-auto">
-        <CardContent className="p-0">
-          <div className="grid grid-cols-3 divide-x">
-            <Button 
-              variant="ghost" 
-              className={`py-4 rounded-none ${activeTab === 'monitoring' ? 'bg-muted' : ''}`}
-              onClick={() => setActiveTab('monitoring')}
-            >
-              Monitoring
-            </Button>
-            <Button 
-              variant="ghost" 
-              className={`py-4 rounded-none ${activeTab === 'transaksi' ? 'bg-blue-500 text-white' : ''}`}
-              onClick={() => setActiveTab('transaksi')}
-            >
-              Transaksi
-            </Button>
-            <Button 
-              variant="ghost" 
-              className={`py-4 rounded-none ${activeTab === 'deposit' ? 'bg-muted' : ''}`}
-              onClick={() => setActiveTab('deposit')}
-            >
-              Deposit
-            </Button>
-          </div>
-          <div className="grid grid-cols-3 divide-x border-t">
-            <Button variant="ghost" className="py-4 rounded-none">User</Button>
-            <Button variant="ghost" className="py-4 rounded-none">Protocol</Button>
-            <Button variant="ghost" className="py-4 rounded-none">Server</Button>
-          </div>
-        </CardContent>
-      </Card>
     </PageLayout>
   );
 };
