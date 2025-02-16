@@ -1,5 +1,15 @@
 
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useNavigate } from "react-router-dom";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -8,6 +18,7 @@ interface PageLayoutProps {
 const PageLayout = ({ children }: PageLayoutProps) => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [show, setShow] = useState(true);
+  const navigate = useNavigate();
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') {
@@ -35,7 +46,32 @@ const PageLayout = ({ children }: PageLayoutProps) => {
       <header className={`bg-[#006400] text-white py-3 fixed w-full z-50 transition-transform duration-300 ${show ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container px-4">
           <div className="flex items-center">
-            <div className="text-left">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-white mr-4">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="py-4">
+                  <nav className="space-y-2">
+                    <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/')}>
+                      Beranda
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/profile')}>
+                      Profil
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/settings')}>
+                      Pengaturan
+                    </Button>
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
+            <div className="flex-1 text-center">
               <h1 className="text-2xl font-bold">Kedai SSH</h1>
               <p className="text-sm text-white/80">the fastest speed server</p>
             </div>

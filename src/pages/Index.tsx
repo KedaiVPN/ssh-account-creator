@@ -1,54 +1,59 @@
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Menu, User, Wallet, Network, CircleDot } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { User, Wallet, Network, CircleDot } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface ServerCounts {
+  ssh: number;
+  vmess: number;
+  vless: number;
+  trojan: number;
+}
 
 const Index = () => {
   const navigate = useNavigate();
+  const [serverCounts, setServerCounts] = useState<ServerCounts>({
+    ssh: 0,
+    vmess: 0,
+    vless: 0,
+    trojan: 0
+  });
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('servers')
+          .select('id, name');
+        
+        if (error) throw error;
+        
+        // Count servers by type based on name
+        const counts = (data || []).reduce((acc, server) => {
+          const name = server.name.toLowerCase();
+          if (name.includes('ssh')) acc.ssh++;
+          if (name.includes('vmess')) acc.vmess++;
+          if (name.includes('vless')) acc.vless++;
+          if (name.includes('trojan')) acc.trojan++;
+          return acc;
+        }, { ssh: 0, vmess: 0, vless: 0, trojan: 0 });
+
+        setServerCounts(counts);
+      } catch (error) {
+        console.error('Error fetching servers:', error);
+      }
+    };
+
+    fetchServers();
+  }, []);
 
   return (
     <PageLayout>
-      {/* Top Navigation */}
-      <div className="flex justify-between items-center mb-6">
-        <div /> {/* Empty div for spacing */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="mr-2">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
-            </SheetHeader>
-            <div className="py-4">
-              <nav className="space-y-2">
-                <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/')}>
-                  Beranda
-                </Button>
-                <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/profile')}>
-                  Profil
-                </Button>
-                <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/settings')}>
-                  Pengaturan
-                </Button>
-              </nav>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </div>
-
       {/* Telegram Alert */}
       <div className="bg-white rounded-lg shadow-sm p-4 mb-6 border-l-4 border-red-500">
         <p className="text-gray-800">
@@ -66,7 +71,7 @@ const Index = () => {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-medium text-white">Role</p>
-              <p className="text-lg font-bold text-white truncate">MEMBER</p>
+              <p className="text-base font-bold text-white truncate">MEMBER</p>
             </div>
           </CardContent>
         </Card>
@@ -103,7 +108,7 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/ssh')}
         >
-          <span className="text-4xl font-bold mb-2">4</span>
+          <span className="text-4xl font-bold mb-2">{serverCounts.ssh}</span>
           <span className="text-sm mb-2">SSH Servers</span>
           <span className="text-sm flex items-center">
             Order SSH <CircleDot className="ml-1 h-4 w-4" />
@@ -114,7 +119,7 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vmess')}
         >
-          <span className="text-4xl font-bold mb-2">9</span>
+          <span className="text-4xl font-bold mb-2">{serverCounts.vmess}</span>
           <span className="text-sm mb-2">Vmess Servers</span>
           <span className="text-sm flex items-center">
             Order Vmess <CircleDot className="ml-1 h-4 w-4" />
@@ -125,7 +130,7 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vless')}
         >
-          <span className="text-4xl font-bold mb-2">9</span>
+          <span className="text-4xl font-bold mb-2">{serverCounts.vless}</span>
           <span className="text-sm mb-2">Vless Servers</span>
           <span className="text-sm flex items-center">
             Order Vless <CircleDot className="ml-1 h-4 w-4" />
@@ -136,7 +141,7 @@ const Index = () => {
           className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/trojan')}
         >
-          <span className="text-4xl font-bold mb-2">9</span>
+          <span className="text-4xl font-bold mb-2">{serverCounts.trojan}</span>
           <span className="text-sm mb-2">Trojan Servers</span>
           <span className="text-sm flex items-center">
             Order Trojan <CircleDot className="ml-1 h-4 w-4" />
