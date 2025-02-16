@@ -33,7 +33,6 @@ const Index = () => {
         
         if (error) throw error;
         
-        // Count servers by type based on name
         const counts = (data || []).reduce((acc, server) => {
           const name = server.name.toLowerCase();
           if (name.includes('ssh')) acc.ssh++;
@@ -55,88 +54,88 @@ const Index = () => {
   return (
     <PageLayout>
       {/* User Info Cards */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-2 gap-3 mb-4">
         <Card className="bg-[#006400]">
-          <CardContent className="p-4 flex items-center space-x-3">
-            <div className="bg-yellow-400 p-2 rounded-lg">
-              <User className="h-6 w-6 text-white" />
+          <CardContent className="p-3 flex items-center space-x-2">
+            <div className="bg-yellow-400 p-1.5 rounded-lg">
+              <User className="h-5 w-5 text-white" />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-medium text-white">Role</p>
-              <p className="text-sm font-bold text-white truncate">MEMBER</p>
+              <p className="text-xs font-medium text-white">Role</p>
+              <p className="text-xs font-bold text-white truncate">MEMBER</p>
             </div>
           </CardContent>
         </Card>
         <Card className="bg-[#006400]">
-          <CardContent className="p-4 flex items-center space-x-3">
-            <div className="bg-blue-500 p-2 rounded-lg">
-              <Wallet className="h-6 w-6 text-white" />
+          <CardContent className="p-3 flex items-center space-x-2">
+            <div className="bg-blue-500 p-1.5 rounded-lg">
+              <Wallet className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-medium text-white">Balance</p>
-              <p className="text-lg font-bold text-white">Rp 0</p>
+              <p className="text-xs font-medium text-white">Balance</p>
+              <p className="text-sm font-bold text-white">Rp 0</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* VPN Active Card */}
-      <Card className="mb-6 bg-[#006400]">
-        <CardContent className="p-4 flex items-center space-x-3">
-          <div className="bg-green-500 p-2 rounded-lg">
-            <Network className="h-6 w-6 text-white" />
+      <Card className="mb-4 bg-[#006400]">
+        <CardContent className="p-3 flex items-center space-x-2">
+          <div className="bg-green-500 p-1.5 rounded-lg">
+            <Network className="h-5 w-5 text-white" />
           </div>
           <div>
-            <p className="text-sm font-medium text-white">VPN Active</p>
-            <p className="text-lg font-bold text-white">0</p>
+            <p className="text-xs font-medium text-white">VPN Active</p>
+            <p className="text-sm font-bold text-white">0</p>
           </div>
         </CardContent>
       </Card>
 
       {/* Server Cards */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-2 gap-3 mb-4">
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/ssh')}
         >
-          <span className="text-4xl font-bold">{serverCounts.ssh}</span>
-          <span className="text-sm">SSH Servers</span>
-          <span className="text-sm flex items-center mt-1">
-            Order SSH <CircleDot className="ml-1 h-4 w-4" />
+          <span className="text-2xl font-bold">{serverCounts.ssh}</span>
+          <span className="text-xs">SSH Servers</span>
+          <span className="text-xs flex items-center mt-0.5">
+            Order SSH <CircleDot className="ml-1 h-3 w-3" />
           </span>
         </Button>
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vmess')}
         >
-          <span className="text-4xl font-bold">{serverCounts.vmess}</span>
-          <span className="text-sm">Vmess Servers</span>
-          <span className="text-sm flex items-center mt-1">
-            Order Vmess <CircleDot className="ml-1 h-4 w-4" />
+          <span className="text-2xl font-bold">{serverCounts.vmess}</span>
+          <span className="text-xs">Vmess Servers</span>
+          <span className="text-xs flex items-center mt-0.5">
+            Order Vmess <CircleDot className="ml-1 h-3 w-3" />
           </span>
         </Button>
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vless')}
         >
-          <span className="text-4xl font-bold">{serverCounts.vless}</span>
-          <span className="text-sm">Vless Servers</span>
-          <span className="text-sm flex items-center mt-1">
-            Order Vless <CircleDot className="ml-1 h-4 w-4" />
+          <span className="text-2xl font-bold">{serverCounts.vless}</span>
+          <span className="text-xs">Vless Servers</span>
+          <span className="text-xs flex items-center mt-0.5">
+            Order Vless <CircleDot className="ml-1 h-3 w-3" />
           </span>
         </Button>
         <Button 
           variant="secondary" 
-          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/trojan')}
         >
-          <span className="text-4xl font-bold">{serverCounts.trojan}</span>
-          <span className="text-sm">Trojan Servers</span>
-          <span className="text-sm flex items-center mt-1">
-            Order Trojan <CircleDot className="ml-1 h-4 w-4" />
+          <span className="text-2xl font-bold">{serverCounts.trojan}</span>
+          <span className="text-xs">Trojan Servers</span>
+          <span className="text-xs flex items-center mt-0.5">
+            Order Trojan <CircleDot className="ml-1 h-3 w-3" />
           </span>
         </Button>
       </div>
