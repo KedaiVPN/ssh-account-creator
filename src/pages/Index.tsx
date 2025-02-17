@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -107,122 +108,126 @@ const Index = () => {
 
   return (
     <PageLayout>
-      {/* User Info Cards */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
+      {/* Top Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {/* User Info Cards */}
         <Card className="bg-[#006400]">
-          <CardContent className="p-3 flex items-center space-x-2">
-            <div className="bg-yellow-400 p-1.5 rounded-lg">
-              <User className="h-5 w-5 text-white" />
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="bg-yellow-400 p-2 rounded-lg">
+              <User className="h-6 w-6 text-white" />
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-medium text-white">Role</p>
-              <p className="text-xs font-bold text-white truncate">MEMBER</p>
+              <p className="text-sm font-medium text-white">Role</p>
+              <p className="text-base font-bold text-white truncate">MEMBER</p>
             </div>
           </CardContent>
         </Card>
+
         <Card className="bg-[#006400]">
-          <CardContent className="p-3 flex items-center space-x-2">
-            <div className="bg-blue-500 p-1.5 rounded-lg">
-              <Wallet className="h-5 w-5 text-white" />
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="bg-blue-500 p-2 rounded-lg">
+              <Wallet className="h-6 w-6 text-white" />
             </div>
             <div>
-              <p className="text-xs font-medium text-white">Balance</p>
-              <p className="text-sm font-bold text-white">Rp 0</p>
+              <p className="text-sm font-medium text-white">Balance</p>
+              <p className="text-base font-bold text-white">Rp 0</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-[#006400]">
+          <CardContent className="p-4 flex items-center space-x-3">
+            <div className="bg-green-500 p-2 rounded-lg">
+              <Network className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-white">VPN Active</p>
+              <p className="text-base font-bold text-white">0</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* VPN Active Card */}
-      <Card className="mb-4 bg-[#006400]">
-        <CardContent className="p-3 flex items-center space-x-2">
-          <div className="bg-green-500 p-1.5 rounded-lg">
-            <Network className="h-5 w-5 text-white" />
-          </div>
-          <div>
-            <p className="text-xs font-medium text-white">VPN Active</p>
-            <p className="text-sm font-bold text-white">0</p>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Server Cards */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Button 
           variant="secondary" 
-          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/ssh')}
         >
-          <span className="text-2xl font-bold">{serverCounts.ssh}</span>
-          <span className="text-xs">SSH Servers</span>
-          <span className="text-xs flex items-center mt-0.5">
-            Order SSH <CircleDot className="ml-1 h-3 w-3" />
+          <span className="text-3xl font-bold">{serverCounts.ssh}</span>
+          <span className="text-sm mt-1">SSH Servers</span>
+          <span className="text-sm flex items-center mt-1">
+            Order SSH <CircleDot className="ml-1.5 h-4 w-4" />
           </span>
         </Button>
+
         <Button 
           variant="secondary" 
-          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vmess')}
         >
-          <span className="text-2xl font-bold">{serverCounts.vmess}</span>
-          <span className="text-xs">Vmess Servers</span>
-          <span className="text-xs flex items-center mt-0.5">
-            Order Vmess <CircleDot className="ml-1 h-3 w-3" />
+          <span className="text-3xl font-bold">{serverCounts.vmess}</span>
+          <span className="text-sm mt-1">Vmess Servers</span>
+          <span className="text-sm flex items-center mt-1">
+            Order Vmess <CircleDot className="ml-1.5 h-4 w-4" />
           </span>
         </Button>
+
         <Button 
           variant="secondary" 
-          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/vless')}
         >
-          <span className="text-2xl font-bold">{serverCounts.vless}</span>
-          <span className="text-xs">Vless Servers</span>
-          <span className="text-xs flex items-center mt-0.5">
-            Order Vless <CircleDot className="ml-1 h-3 w-3" />
+          <span className="text-3xl font-bold">{serverCounts.vless}</span>
+          <span className="text-sm mt-1">Vless Servers</span>
+          <span className="text-sm flex items-center mt-1">
+            Order Vless <CircleDot className="ml-1.5 h-4 w-4" />
           </span>
         </Button>
+
         <Button 
           variant="secondary" 
-          className="h-auto py-4 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
+          className="h-auto py-6 flex flex-col items-center bg-[#006400] hover:bg-[#006400]/90 text-white"
           onClick={() => navigate('/trojan')}
         >
-          <span className="text-2xl font-bold">{serverCounts.trojan}</span>
-          <span className="text-xs">Trojan Servers</span>
-          <span className="text-xs flex items-center mt-0.5">
-            Order Trojan <CircleDot className="ml-1 h-3 w-3" />
+          <span className="text-3xl font-bold">{serverCounts.trojan}</span>
+          <span className="text-sm mt-1">Trojan Servers</span>
+          <span className="text-sm flex items-center mt-1">
+            Order Trojan <CircleDot className="ml-1.5 h-4 w-4" />
           </span>
         </Button>
       </div>
 
       {/* Monitoring Table */}
-      <div className="mb-4">
-        <h3 className="text-sm font-semibold mb-2">Recent Activities</h3>
-        <Card>
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold mb-3">Recent Activities</h3>
+        <Card className="overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-xs">Type</TableHead>
-                <TableHead className="text-xs">Username</TableHead>
-                <TableHead className="text-xs">Details</TableHead>
-                <TableHead className="text-xs">Price</TableHead>
-                <TableHead className="text-xs">Time</TableHead>
+                <TableHead className="text-sm">Type</TableHead>
+                <TableHead className="text-sm">Username</TableHead>
+                <TableHead className="text-sm">Details</TableHead>
+                <TableHead className="text-sm">Price</TableHead>
+                <TableHead className="text-sm">Time</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {monitoringData.map((entry) => (
                 <TableRow key={entry.id}>
-                  <TableCell className="text-xs font-medium">{entry.account_type}</TableCell>
-                  <TableCell className="text-xs">{entry.masked_username}</TableCell>
-                  <TableCell className="text-xs">{entry.server_name}</TableCell>
-                  <TableCell className="text-xs">{entry.server_location}</TableCell>
-                  <TableCell className="text-xs">
+                  <TableCell className="text-sm font-medium">{entry.account_type}</TableCell>
+                  <TableCell className="text-sm">{entry.masked_username}</TableCell>
+                  <TableCell className="text-sm">{entry.server_name}</TableCell>
+                  <TableCell className="text-sm">{entry.server_location}</TableCell>
+                  <TableCell className="text-sm">
                     {format(new Date(entry.created_at), 'HH:mm dd/MM')}
                   </TableCell>
                 </TableRow>
               ))}
               {monitoringData.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-xs text-gray-500">
+                  <TableCell colSpan={5} className="text-center text-sm text-gray-500">
                     No recent activities
                   </TableCell>
                 </TableRow>
