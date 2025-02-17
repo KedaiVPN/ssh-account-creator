@@ -16,6 +16,7 @@ interface ServerDetailsProps {
     location: string;
     status: string;
     max_users: number;
+    port: number;
   };
 }
 
@@ -36,6 +37,10 @@ const ServerDetailsCard = ({ server }: ServerDetailsProps) => {
             <div className="p-4 rounded-lg bg-muted/50">
               <Label className="text-sm text-muted-foreground">Hostname</Label>
               <p className="text-lg font-medium mt-1">{server.hostname}</p>
+            </div>
+            <div className="p-4 rounded-lg bg-muted/50">
+              <Label className="text-sm text-muted-foreground">Port</Label>
+              <p className="text-lg font-medium mt-1">{server.port}</p>
             </div>
             <div className="p-4 rounded-lg bg-muted/50">
               <Label className="text-sm text-muted-foreground">Server Load</Label>

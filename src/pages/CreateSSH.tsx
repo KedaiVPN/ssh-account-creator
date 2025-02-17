@@ -17,8 +17,11 @@ interface ServerDetails {
   load: number;
   max_users: number;
   hostname: string;
-  ip_address: string;
-  ssh_port: number;
+  username: string;
+  password: string;
+  port: number;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 const CreateSSH = () => {
