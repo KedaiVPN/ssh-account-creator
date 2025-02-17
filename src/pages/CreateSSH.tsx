@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ServerDetailsCard from "@/components/server/ServerDetailsCard";
 import CreateSSHForm from "@/components/ssh/CreateSSHForm";
@@ -17,6 +17,8 @@ interface ServerDetails {
   load: number;
   max_users: number;
   hostname: string;
+  ip_address: string;
+  ssh_port: number;
 }
 
 const CreateSSH = () => {
@@ -79,7 +81,6 @@ const CreateSSH = () => {
         description: "Akun SSH telah berhasil dibuat",
       });
       
-      navigate(-1);
     } catch (error) {
       console.error('Error creating SSH account:', error);
       toast({
