@@ -204,7 +204,7 @@ const Index = () => {
                 <TableHead className="text-xs">Type</TableHead>
                 <TableHead className="text-xs">Username</TableHead>
                 <TableHead className="text-xs">Details</TableHead>
-                <TableHead className="text-xs">Location</TableHead>
+                <TableHead className="text-xs">Price</TableHead>
                 <TableHead className="text-xs">Time</TableHead>
               </TableRow>
             </TableHeader>
