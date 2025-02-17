@@ -24,35 +24,23 @@ import { useToast } from "@/hooks/use-toast";
 interface CreateSSHFormProps {
   onSubmit: (username: string, password: string) => Promise<void>;
   isLoading: boolean;
+  createdAccount: {
+    username: string;
+    password: string;
+    server_hostname: string;
+    server_port: number;
+  } | null;
+  onCloseDetails: () => void;
 }
 
-interface AccountDetails {
-  username: string;
-  password: string;
-  host: string;
-  port: number;
-}
-
-const CreateSSHForm = ({ onSubmit, isLoading }: CreateSSHFormProps) => {
+const CreateSSHForm = ({ onSubmit, isLoading, createdAccount, onCloseDetails }: CreateSSHFormProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showDetails, setShowDetails] = useState(false);
-  const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await onSubmit(username, password);
-    
-    // Simulate account details for demonstration
-    // In real implementation, this should come from the onSubmit response
-    setAccountDetails({
-      username: username,
-      password: password,
-      host: "your-vps-ip", // This should come from server
-      port: 22 // This should come from server
-    });
-    setShowDetails(true);
   };
 
   const copyToClipboard = (text: string) => {
@@ -63,10 +51,9 @@ const CreateSSHForm = ({ onSubmit, isLoading }: CreateSSHFormProps) => {
   };
 
   const handleClose = () => {
-    setShowDetails(false);
     setUsername("");
     setPassword("");
-    setAccountDetails(null);
+    onCloseDetails();
   };
 
   return (
@@ -114,7 +101,7 @@ const CreateSSHForm = ({ onSubmit, isLoading }: CreateSSHFormProps) => {
         </CardContent>
       </Card>
 
-      <Dialog open={showDetails} onOpenChange={setShowDetails}>
+      <Dialog open={!!createdAccount} onOpenChange={(open) => !open && handleClose()}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Detail Akun SSH</DialogTitle>
@@ -122,16 +109,16 @@ const CreateSSHForm = ({ onSubmit, isLoading }: CreateSSHFormProps) => {
               Berikut adalah detail akun SSH yang baru dibuat
             </DialogDescription>
           </DialogHeader>
-          {accountDetails && (
+          {createdAccount && (
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label>Host</Label>
                 <div className="flex items-center space-x-2">
-                  <Input value={accountDetails.host} readOnly />
+                  <Input value={createdAccount.server_hostname} readOnly />
                   <Button
                     size="icon"
                     variant="outline"
-                    onClick={() => copyToClipboard(accountDetails.host)}
+                    onClick={() => copyToClipboard(createdAccount.server_hostname)}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
@@ -140,11 +127,11 @@ const CreateSSHForm = ({ onSubmit, isLoading }: CreateSSHFormProps) => {
               <div className="space-y-2">
                 <Label>Port</Label>
                 <div className="flex items-center space-x-2">
-                  <Input value={accountDetails.port} readOnly />
+                  <Input value={createdAccount.server_port} readOnly />
                   <Button
                     size="icon"
                     variant="outline"
-                    onClick={() => copyToClipboard(accountDetails.port.toString())}
+                    onClick={() => copyToClipboard(createdAccount.server_port.toString())}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
@@ -153,11 +140,11 @@ const CreateSSHForm = ({ onSubmit, isLoading }: CreateSSHFormProps) => {
               <div className="space-y-2">
                 <Label>Username</Label>
                 <div className="flex items-center space-x-2">
-                  <Input value={accountDetails.username} readOnly />
+                  <Input value={createdAccount.username} readOnly />
                   <Button
                     size="icon"
                     variant="outline"
-                    onClick={() => copyToClipboard(accountDetails.username)}
+                    onClick={() => copyToClipboard(createdAccount.username)}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
@@ -166,11 +153,11 @@ const CreateSSHForm = ({ onSubmit, isLoading }: CreateSSHFormProps) => {
               <div className="space-y-2">
                 <Label>Password</Label>
                 <div className="flex items-center space-x-2">
-                  <Input value={accountDetails.password} readOnly />
+                  <Input value={createdAccount.password} readOnly />
                   <Button
                     size="icon"
                     variant="outline"
-                    onClick={() => copyToClipboard(accountDetails.password)}
+                    onClick={() => copyToClipboard(createdAccount.password)}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>

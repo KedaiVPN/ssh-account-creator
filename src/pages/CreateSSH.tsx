@@ -24,12 +24,20 @@ interface ServerDetails {
   updated_at: string | null;
 }
 
+interface SSHAccount {
+  username: string;
+  password: string;
+  server_hostname: string;
+  server_port: number;
+}
+
 const CreateSSH = () => {
   const { serverId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [server, setServer] = useState<ServerDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [createdAccount, setCreatedAccount] = useState<SSHAccount | null>(null);
 
   useEffect(() => {
     const fetchServerDetails = async () => {
@@ -79,6 +87,14 @@ const CreateSSH = () => {
 
       if (error) throw error;
 
+      // Set the created account details
+      setCreatedAccount({
+        username,
+        password,
+        server_hostname: server.hostname,
+        server_port: server.port
+      });
+
       toast({
         title: "Berhasil",
         description: "Akun SSH telah berhasil dibuat",
@@ -117,6 +133,8 @@ const CreateSSH = () => {
         <CreateSSHForm 
           onSubmit={handleCreateSSH}
           isLoading={isLoading}
+          createdAccount={createdAccount}
+          onCloseDetails={() => setCreatedAccount(null)}
         />
       </motion.div>
     </PageLayout>
