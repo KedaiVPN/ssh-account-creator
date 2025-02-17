@@ -95,6 +95,30 @@ export type Database = {
           },
         ]
       }
+      top_up_transactions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       tunnels: {
         Row: {
           created_at: string
@@ -127,7 +151,17 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      monitoring_view: {
+        Row: {
+          account_type: string | null
+          created_at: string | null
+          id: string | null
+          masked_username: string | null
+          server_location: string | null
+          server_name: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

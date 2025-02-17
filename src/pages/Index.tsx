@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -7,12 +6,30 @@ import PageLayout from "@/components/layout/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { User, Wallet, Network, CircleDot } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { 
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { format } from "date-fns";
 
 interface ServerCounts {
   ssh: number;
   vmess: number;
   vless: number;
   trojan: number;
+}
+
+interface MonitoringEntry {
+  id: string;
+  account_type: string;
+  masked_username: string;
+  server_name: string;
+  server_location: string;
+  created_at: string;
 }
 
 const Index = () => {
@@ -23,6 +40,7 @@ const Index = () => {
     vless: 0,
     trojan: 0
   });
+  const [monitoringData, setMonitoringData] = useState<MonitoringEntry[]>([]);
 
   useEffect(() => {
     const fetchServers = async () => {
@@ -48,7 +66,43 @@ const Index = () => {
       }
     };
 
+    const fetchMonitoringData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('monitoring_view')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10);
+
+        if (error) throw error;
+        setMonitoringData(data || []);
+      } catch (error) {
+        console.error('Error fetching monitoring data:', error);
+      }
+    };
+
     fetchServers();
+    fetchMonitoringData();
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('monitoring-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'monitoring_view'
+        },
+        (payload) => {
+          fetchMonitoringData(); // Refresh data when changes occur
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (
@@ -138,6 +192,44 @@ const Index = () => {
             Order Trojan <CircleDot className="ml-1 h-3 w-3" />
           </span>
         </Button>
+      </div>
+
+      {/* Monitoring Table */}
+      <div className="mb-4">
+        <h3 className="text-sm font-semibold mb-2">Recent Activities</h3>
+        <Card>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-xs">Type</TableHead>
+                <TableHead className="text-xs">Username</TableHead>
+                <TableHead className="text-xs">Details</TableHead>
+                <TableHead className="text-xs">Location</TableHead>
+                <TableHead className="text-xs">Time</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {monitoringData.map((entry) => (
+                <TableRow key={entry.id}>
+                  <TableCell className="text-xs font-medium">{entry.account_type}</TableCell>
+                  <TableCell className="text-xs">{entry.masked_username}</TableCell>
+                  <TableCell className="text-xs">{entry.server_name}</TableCell>
+                  <TableCell className="text-xs">{entry.server_location}</TableCell>
+                  <TableCell className="text-xs">
+                    {format(new Date(entry.created_at), 'HH:mm dd/MM')}
+                  </TableCell>
+                </TableRow>
+              ))}
+              {monitoringData.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center text-xs text-gray-500">
+                    No recent activities
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </Card>
       </div>
     </PageLayout>
   );
