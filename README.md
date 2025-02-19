@@ -1,69 +1,78 @@
-# Welcome to your Lovable project
 
-## Project info
+# SSH Account Creator
 
-**URL**: https://lovable.dev/projects/1f73bd06-5c91-46c4-8639-c9e24afa6d2a
+Aplikasi web untuk manajemen dan pembuatan akun SSH dengan antarmuka yang intuitif.
 
-## How can I edit this code?
+## Fitur Utama
 
-There are several ways of editing your application.
+- 🔐 Pembuatan akun SSH dengan validasi yang kuat
+- 🎨 Antarmuka pengguna modern dengan Tailwind CSS dan shadcn/ui
+- 📋 Clipboard integration untuk menyalin detail akun
+- 🔄 Generator password otomatis
+- 🔒 Integrasi dengan Supabase untuk penyimpanan data yang aman
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1f73bd06-5c91-46c4-8639-c9e24afa6d2a) and start prompting.
+- **Frontend**: React + Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Backend**: Supabase
+- **State Management**: React Query
+- **Form Validation**: Zod
 
-Changes made via Lovable will be committed automatically to this repo.
+## Setup Pengembangan
 
-**Use your preferred IDE**
+1. Clone repositori
+```bash
+git clone <repository-url>
+cd ssh-account-creator
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. Install dependensi
+```bash
+npm install
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Jalankan aplikasi
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Struktur Proyek
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+src/
+├── components/        # Komponen React yang reusable
+│   ├── ui/           # Komponen UI dasar dari shadcn/ui
+│   └── ssh/          # Komponen khusus untuk fitur SSH
+├── lib/              # Utilitas dan helper functions
+│   ├── utils/        # Fungsi utilitas umum
+│   └── validators/   # Schema validasi
+├── pages/            # Komponen halaman
+└── integrations/     # Konfigurasi integrasi third-party
+```
 
-**Use GitHub Codespaces**
+## Best Practices
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Gunakan TypeScript untuk type safety
+- Ikuti konvensi penamaan yang konsisten
+- Validasi input menggunakan Zod
+- Gunakan komponen shadcn/ui untuk konsistensi UI
+- Implementasikan error handling yang proper
+- Dokumentasikan kode dengan JSDoc
 
-## What technologies are used for this project?
+## Deployment
 
-This project is built with .
+Aplikasi dapat di-deploy menggunakan platform seperti Vercel, Netlify, atau layanan hosting lainnya yang mendukung aplikasi React.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Kontribusi
 
-## How can I deploy this project?
+1. Fork repositori
+2. Buat branch fitur (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
 
-Simply open [Lovable](https://lovable.dev/projects/1f73bd06-5c91-46c4-8639-c9e24afa6d2a) and click on Share -> Publish.
+## Lisensi
 
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Distributed under the MIT License. See `LICENSE` for more information.

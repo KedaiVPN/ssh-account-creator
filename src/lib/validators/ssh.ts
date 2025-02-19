@@ -1,6 +1,18 @@
 
+/**
+ * @file SSH Account validation schemas
+ * @description Defines validation rules for SSH account creation using Zod
+ */
+
 import { z } from "zod";
 
+/**
+ * Schema validasi untuk pembuatan akun SSH
+ * @remarks
+ * Memvalidasi username dan password sesuai dengan standar keamanan:
+ * - Username: alfanumerik dengan underscore dan dash
+ * - Password: minimal 6 karakter dengan kombinasi huruf besar, kecil, dan angka
+ */
 export const sshAccountSchema = z.object({
   username: z
     .string()
