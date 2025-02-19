@@ -57,9 +57,12 @@ export type Database = {
       ssh_accounts: {
         Row: {
           created_at: string | null
+          duration_days: number | null
+          duration_type: string
           expired_at: string | null
           id: string
           password: string
+          price: number
           server_id: string | null
           status: string
           updated_at: string | null
@@ -67,9 +70,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          duration_days?: number | null
+          duration_type?: string
           expired_at?: string | null
           id?: string
           password: string
+          price?: number
           server_id?: string | null
           status?: string
           updated_at?: string | null
@@ -77,9 +83,12 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          duration_days?: number | null
+          duration_type?: string
           expired_at?: string | null
           id?: string
           password?: string
+          price?: number
           server_id?: string | null
           status?: string
           updated_at?: string | null

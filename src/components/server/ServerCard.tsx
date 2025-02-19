@@ -70,18 +70,18 @@ const ServerCard = ({ id, name, location, status, load }: ServerCardProps) => {
             
             <div className="flex items-center space-x-2">
               <Checkbox
-                id="monthly"
+                id={`monthly-${id}`}
                 checked={isMonthly}
                 onCheckedChange={(checked) => setIsMonthly(checked as boolean)}
               />
-              <Label htmlFor="monthly">1 Bulan ({formatToRupiah(monthlyPrice)})</Label>
+              <Label htmlFor={`monthly-${id}`}>1 Bulan ({formatToRupiah(monthlyPrice)})</Label>
             </div>
 
             {!isMonthly && (
               <div className="space-y-2">
-                <Label htmlFor="days">Jumlah Hari</Label>
+                <Label htmlFor={`days-${id}`}>Jumlah Hari</Label>
                 <Input
-                  id="days"
+                  id={`days-${id}`}
                   type="number"
                   min="1"
                   max="30"
